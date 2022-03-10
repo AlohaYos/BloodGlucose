@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "LineChartData.init(dataSets:):LineChartData.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ChartViewBase.data.getter:ChartViewBase.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "_data">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BarLineChartViewBase.draw(_:):BarLineChartViewBase.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "data">
+            </PersistentString>
+            <PersistentString
+               value = "renderer">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "-[ViewController setDataCount:range:]:ViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "_chartView">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__33-[ViewController getBloodGlucose]_block_invoke_2:ViewController.m">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

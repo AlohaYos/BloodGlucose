@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0397DF1354941AF6C9BDDE56 /* Pods_BloodGlucose.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54563DCBB96C2FF0F370F7F0 /* Pods_BloodGlucose.framework */; };
+		FF378BF327D3480200A1C3F8 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF378BF127D3480200A1C3F8 /* Interface.storyboard */; };
+		FF378BF527D3480300A1C3F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF378BF427D3480300A1C3F8 /* Assets.xcassets */; };
+		FF378BFB27D3480300A1C3F8 /* WatchCGM WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = FF378BFA27D3480300A1C3F8 /* WatchCGM WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FF378C0127D3480300A1C3F8 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF378C0027D3480300A1C3F8 /* InterfaceController.m */; };
+		FF378C0427D3480300A1C3F8 /* ExtensionDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FF378C0327D3480300A1C3F8 /* ExtensionDelegate.m */; };
+		FF378C0727D3480300A1C3F8 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF378C0627D3480300A1C3F8 /* NotificationController.m */; };
+		FF378C0A27D3480300A1C3F8 /* ComplicationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF378C0927D3480300A1C3F8 /* ComplicationController.m */; };
+		FF378C0C27D3480400A1C3F8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF378C0B27D3480400A1C3F8 /* Assets.xcassets */; };
+		FF378C1127D3480400A1C3F8 /* WatchCGM.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = FF378BEF27D3480100A1C3F8 /* WatchCGM.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FF579AAE27C9F7F900D83C22 /* newtlogo600.jpg in Resources */ = {isa = PBXBuildFile; fileRef = FF579AAD27C9F7F900D83C22 /* newtlogo600.jpg */; };
 		FF62071227C5CF010009D296 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FF62071127C5CF010009D296 /* AppDelegate.m */; };
 		FF62071527C5CF010009D296 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FF62071427C5CF010009D296 /* SceneDelegate.m */; };
 		FF62071827C5CF010009D296 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FF62071727C5CF010009D296 /* ViewController.m */; };
@@ -14,9 +25,76 @@
 		FF62071D27C5CF020009D296 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FF62071C27C5CF020009D296 /* Assets.xcassets */; };
 		FF62072027C5CF020009D296 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FF62071E27C5CF020009D296 /* LaunchScreen.storyboard */; };
 		FF62072327C5CF020009D296 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FF62072227C5CF020009D296 /* main.m */; };
+		FF62072B27C5D6270009D296 /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF62072A27C5D6270009D296 /* HealthKit.framework */; };
+		FF62072E27C5E1C50009D296 /* DateValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = FF62072D27C5E1C50009D296 /* DateValueFormatter.m */; };
+		FF62073127C5E45A0009D296 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF62073027C5E45A0009D296 /* File.swift */; };
+		FF967E6C27D42FF7003992E0 /* ShareData.m in Sources */ = {isa = PBXBuildFile; fileRef = FF967E6A27D42FF6003992E0 /* ShareData.m */; };
+		FF967E6D27D42FF7003992E0 /* ShareData.m in Sources */ = {isa = PBXBuildFile; fileRef = FF967E6A27D42FF6003992E0 /* ShareData.m */; };
+		FFAAF61927CB0A4500BB21D7 /* PhotoInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = FFAAF61827CB0A4500BB21D7 /* PhotoInfo.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		FF378BFC27D3480300A1C3F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FF62070527C5CF010009D296 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FF378BF927D3480300A1C3F8;
+			remoteInfo = "WatchCGM WatchKit Extension";
+		};
+		FF378C0F27D3480400A1C3F8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FF62070527C5CF010009D296 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FF378BEE27D3480100A1C3F8;
+			remoteInfo = WatchCGM;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		FF378C1227D3480400A1C3F8 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				FF378C1127D3480400A1C3F8 /* WatchCGM.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF378C1527D3480400A1C3F8 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				FF378BFB27D3480300A1C3F8 /* WatchCGM WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		357A62F3B5FA31F2D6709C15 /* Pods-BloodGlucose.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BloodGlucose.debug.xcconfig"; path = "Target Support Files/Pods-BloodGlucose/Pods-BloodGlucose.debug.xcconfig"; sourceTree = "<group>"; };
+		54563DCBB96C2FF0F370F7F0 /* Pods_BloodGlucose.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BloodGlucose.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAF7C537D77CD857A73DAEE0 /* Pods-BloodGlucose.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BloodGlucose.release.xcconfig"; path = "Target Support Files/Pods-BloodGlucose/Pods-BloodGlucose.release.xcconfig"; sourceTree = "<group>"; };
+		FF378BEF27D3480100A1C3F8 /* WatchCGM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WatchCGM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF378BF227D3480200A1C3F8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		FF378BF427D3480300A1C3F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FF378BFA27D3480300A1C3F8 /* WatchCGM WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "WatchCGM WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF378BFF27D3480300A1C3F8 /* InterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
+		FF378C0027D3480300A1C3F8 /* InterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
+		FF378C0227D3480300A1C3F8 /* ExtensionDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExtensionDelegate.h; sourceTree = "<group>"; };
+		FF378C0327D3480300A1C3F8 /* ExtensionDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExtensionDelegate.m; sourceTree = "<group>"; };
+		FF378C0527D3480300A1C3F8 /* NotificationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
+		FF378C0627D3480300A1C3F8 /* NotificationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
+		FF378C0827D3480300A1C3F8 /* ComplicationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ComplicationController.h; sourceTree = "<group>"; };
+		FF378C0927D3480300A1C3F8 /* ComplicationController.m */ = {isa = PBXFileReference; indentWidth = 3; lastKnownFileType = sourcecode.c.objc; path = ComplicationController.m; sourceTree = "<group>"; };
+		FF378C0B27D3480400A1C3F8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FF378C0D27D3480400A1C3F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FF378C0E27D3480400A1C3F8 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		FF579AAD27C9F7F900D83C22 /* newtlogo600.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = newtlogo600.jpg; path = BloodGlucose/resources/newtlogo600.jpg; sourceTree = "<group>"; };
 		FF62070D27C5CF010009D296 /* BloodGlucose.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BloodGlucose.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF62071027C5CF010009D296 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FF62071127C5CF010009D296 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -29,24 +107,105 @@
 		FF62071F27C5CF020009D296 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FF62072127C5CF020009D296 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FF62072227C5CF020009D296 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FF62072927C5D6270009D296 /* BloodGlucose.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BloodGlucose.entitlements; sourceTree = "<group>"; };
+		FF62072A27C5D6270009D296 /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		FF62072C27C5E1C50009D296 /* DateValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateValueFormatter.h; sourceTree = "<group>"; };
+		FF62072D27C5E1C50009D296 /* DateValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateValueFormatter.m; sourceTree = "<group>"; };
+		FF62072F27C5E45A0009D296 /* BloodGlucose-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BloodGlucose-Bridging-Header.h"; sourceTree = "<group>"; };
+		FF62073027C5E45A0009D296 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		FF62073227C5E64B0009D296 /* BloodGlucose-Swift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "BloodGlucose-Swift.h"; path = "BloodGlucose/BloodGlucose-Swift.h"; sourceTree = "<group>"; };
+		FF967E6927D42E8F003992E0 /* WatchCGM WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "WatchCGM WatchKit Extension.entitlements"; sourceTree = "<group>"; };
+		FF967E6A27D42FF6003992E0 /* ShareData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareData.m; sourceTree = "<group>"; };
+		FF967E6B27D42FF7003992E0 /* ShareData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareData.h; sourceTree = "<group>"; };
+		FF967E6E27D4337E003992E0 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		FF967E6F27D4613D003992E0 /* SampleData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SampleData.h; sourceTree = "<group>"; };
+		FFAAF61727CB0A4500BB21D7 /* PhotoInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoInfo.h; sourceTree = "<group>"; };
+		FFAAF61827CB0A4500BB21D7 /* PhotoInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoInfo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		FF62070A27C5CF010009D296 /* Frameworks */ = {
+		FF378BF727D3480300A1C3F8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FF62070A27C5CF010009D296 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0397DF1354941AF6C9BDDE56 /* Pods_BloodGlucose.framework in Frameworks */,
+				FF62072B27C5D6270009D296 /* HealthKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2CAF9CCD335302E456963C7E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				357A62F3B5FA31F2D6709C15 /* Pods-BloodGlucose.debug.xcconfig */,
+				AAF7C537D77CD857A73DAEE0 /* Pods-BloodGlucose.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		77E6DC22454C5040557875D9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FF62072A27C5D6270009D296 /* HealthKit.framework */,
+				54563DCBB96C2FF0F370F7F0 /* Pods_BloodGlucose.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FF378BF027D3480100A1C3F8 /* WatchCGM */ = {
+			isa = PBXGroup;
+			children = (
+				FF378BF127D3480200A1C3F8 /* Interface.storyboard */,
+				FF378BF427D3480300A1C3F8 /* Assets.xcassets */,
+			);
+			path = WatchCGM;
+			sourceTree = "<group>";
+		};
+		FF378BFE27D3480300A1C3F8 /* WatchCGM WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				FF967E6927D42E8F003992E0 /* WatchCGM WatchKit Extension.entitlements */,
+				FF378BFF27D3480300A1C3F8 /* InterfaceController.h */,
+				FF378C0027D3480300A1C3F8 /* InterfaceController.m */,
+				FF378C0227D3480300A1C3F8 /* ExtensionDelegate.h */,
+				FF378C0327D3480300A1C3F8 /* ExtensionDelegate.m */,
+				FF378C0527D3480300A1C3F8 /* NotificationController.h */,
+				FF378C0627D3480300A1C3F8 /* NotificationController.m */,
+				FF378C0827D3480300A1C3F8 /* ComplicationController.h */,
+				FF378C0927D3480300A1C3F8 /* ComplicationController.m */,
+				FF378C0B27D3480400A1C3F8 /* Assets.xcassets */,
+				FF378C0D27D3480400A1C3F8 /* Info.plist */,
+				FF378C0E27D3480400A1C3F8 /* PushNotificationPayload.apns */,
+			);
+			path = "WatchCGM WatchKit Extension";
+			sourceTree = "<group>";
+		};
 		FF62070427C5CF010009D296 = {
 			isa = PBXGroup;
 			children = (
+				FF967E6F27D4613D003992E0 /* SampleData.h */,
+				FF967E6E27D4337E003992E0 /* Common.h */,
+				FF967E6B27D42FF7003992E0 /* ShareData.h */,
+				FF967E6A27D42FF6003992E0 /* ShareData.m */,
+				FF579AAD27C9F7F900D83C22 /* newtlogo600.jpg */,
+				FF62073227C5E64B0009D296 /* BloodGlucose-Swift.h */,
+				FF62073027C5E45A0009D296 /* File.swift */,
 				FF62070F27C5CF010009D296 /* BloodGlucose */,
+				FF378BF027D3480100A1C3F8 /* WatchCGM */,
+				FF378BFE27D3480300A1C3F8 /* WatchCGM WatchKit Extension */,
 				FF62070E27C5CF010009D296 /* Products */,
+				2CAF9CCD335302E456963C7E /* Pods */,
+				77E6DC22454C5040557875D9 /* Frameworks */,
+				FF62072F27C5E45A0009D296 /* BloodGlucose-Bridging-Header.h */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,6 +213,8 @@
 			isa = PBXGroup;
 			children = (
 				FF62070D27C5CF010009D296 /* BloodGlucose.app */,
+				FF378BEF27D3480100A1C3F8 /* WatchCGM.app */,
+				FF378BFA27D3480300A1C3F8 /* WatchCGM WatchKit Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -61,6 +222,9 @@
 		FF62070F27C5CF010009D296 /* BloodGlucose */ = {
 			isa = PBXGroup;
 			children = (
+				FF62072C27C5E1C50009D296 /* DateValueFormatter.h */,
+				FF62072D27C5E1C50009D296 /* DateValueFormatter.m */,
+				FF62072927C5D6270009D296 /* BloodGlucose.entitlements */,
 				FF62071027C5CF010009D296 /* AppDelegate.h */,
 				FF62071127C5CF010009D296 /* AppDelegate.m */,
 				FF62071327C5CF010009D296 /* SceneDelegate.h */,
@@ -72,6 +236,8 @@
 				FF62071E27C5CF020009D296 /* LaunchScreen.storyboard */,
 				FF62072127C5CF020009D296 /* Info.plist */,
 				FF62072227C5CF020009D296 /* main.m */,
+				FFAAF61727CB0A4500BB21D7 /* PhotoInfo.h */,
+				FFAAF61827CB0A4500BB21D7 /* PhotoInfo.m */,
 			);
 			path = BloodGlucose;
 			sourceTree = "<group>";
@@ -79,17 +245,55 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FF62070C27C5CF010009D296 /* BloodGlucose */ = {
+		FF378BEE27D3480100A1C3F8 /* WatchCGM */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FF62072627C5CF020009D296 /* Build configuration list for PBXNativeTarget "BloodGlucose" */;
+			buildConfigurationList = FF378C1927D3480400A1C3F8 /* Build configuration list for PBXNativeTarget "WatchCGM" */;
 			buildPhases = (
-				FF62070927C5CF010009D296 /* Sources */,
-				FF62070A27C5CF010009D296 /* Frameworks */,
-				FF62070B27C5CF010009D296 /* Resources */,
+				FF378BED27D3480100A1C3F8 /* Resources */,
+				FF378C1527D3480400A1C3F8 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				FF378BFD27D3480300A1C3F8 /* PBXTargetDependency */,
+			);
+			name = WatchCGM;
+			productName = WatchCGM;
+			productReference = FF378BEF27D3480100A1C3F8 /* WatchCGM.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		FF378BF927D3480300A1C3F8 /* WatchCGM WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF378C1827D3480400A1C3F8 /* Build configuration list for PBXNativeTarget "WatchCGM WatchKit Extension" */;
+			buildPhases = (
+				FF378BF627D3480300A1C3F8 /* Sources */,
+				FF378BF727D3480300A1C3F8 /* Frameworks */,
+				FF378BF827D3480300A1C3F8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "WatchCGM WatchKit Extension";
+			productName = "WatchCGM WatchKit Extension";
+			productReference = FF378BFA27D3480300A1C3F8 /* WatchCGM WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
+		FF62070C27C5CF010009D296 /* BloodGlucose */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FF62072627C5CF020009D296 /* Build configuration list for PBXNativeTarget "BloodGlucose" */;
+			buildPhases = (
+				469A1156A7CEC37861139D01 /* [CP] Check Pods Manifest.lock */,
+				FF62070927C5CF010009D296 /* Sources */,
+				FF62070A27C5CF010009D296 /* Frameworks */,
+				FF62070B27C5CF010009D296 /* Resources */,
+				DE87B5FF03356F8616462056 /* [CP] Embed Pods Frameworks */,
+				FF378C1227D3480400A1C3F8 /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FF378C1027D3480400A1C3F8 /* PBXTargetDependency */,
 			);
 			name = BloodGlucose;
 			productName = BloodGlucose;
@@ -105,8 +309,15 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
+					FF378BEE27D3480100A1C3F8 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
+					FF378BF927D3480300A1C3F8 = {
+						CreatedOnToolsVersion = 13.2.1;
+					};
 					FF62070C27C5CF010009D296 = {
 						CreatedOnToolsVersion = 13.2.1;
+						LastSwiftMigration = 1320;
 					};
 				};
 			};
@@ -124,11 +335,30 @@
 			projectRoot = "";
 			targets = (
 				FF62070C27C5CF010009D296 /* BloodGlucose */,
+				FF378BEE27D3480100A1C3F8 /* WatchCGM */,
+				FF378BF927D3480300A1C3F8 /* WatchCGM WatchKit Extension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		FF378BED27D3480100A1C3F8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF378BF527D3480300A1C3F8 /* Assets.xcassets in Resources */,
+				FF378BF327D3480200A1C3F8 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FF378BF827D3480300A1C3F8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF378C0C27D3480400A1C3F8 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FF62070B27C5CF010009D296 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -136,17 +366,76 @@
 				FF62072027C5CF020009D296 /* LaunchScreen.storyboard in Resources */,
 				FF62071D27C5CF020009D296 /* Assets.xcassets in Resources */,
 				FF62071B27C5CF010009D296 /* Main.storyboard in Resources */,
+				FF579AAE27C9F7F900D83C22 /* newtlogo600.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		469A1156A7CEC37861139D01 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BloodGlucose-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DE87B5FF03356F8616462056 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BloodGlucose/Pods-BloodGlucose-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-BloodGlucose/Pods-BloodGlucose-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-BloodGlucose/Pods-BloodGlucose-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		FF378BF627D3480300A1C3F8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FF378C0427D3480300A1C3F8 /* ExtensionDelegate.m in Sources */,
+				FF378C0A27D3480300A1C3F8 /* ComplicationController.m in Sources */,
+				FF378C0127D3480300A1C3F8 /* InterfaceController.m in Sources */,
+				FF378C0727D3480300A1C3F8 /* NotificationController.m in Sources */,
+				FF967E6D27D42FF7003992E0 /* ShareData.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		FF62070927C5CF010009D296 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				FF62071827C5CF010009D296 /* ViewController.m in Sources */,
+				FF62073127C5E45A0009D296 /* File.swift in Sources */,
+				FF62072E27C5E1C50009D296 /* DateValueFormatter.m in Sources */,
+				FF967E6C27D42FF7003992E0 /* ShareData.m in Sources */,
+				FFAAF61927CB0A4500BB21D7 /* PhotoInfo.m in Sources */,
 				FF62071227C5CF010009D296 /* AppDelegate.m in Sources */,
 				FF62072327C5CF020009D296 /* main.m in Sources */,
 				FF62071527C5CF010009D296 /* SceneDelegate.m in Sources */,
@@ -155,7 +444,28 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		FF378BFD27D3480300A1C3F8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FF378BF927D3480300A1C3F8 /* WatchCGM WatchKit Extension */;
+			targetProxy = FF378BFC27D3480300A1C3F8 /* PBXContainerItemProxy */;
+		};
+		FF378C1027D3480400A1C3F8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FF378BEE27D3480100A1C3F8 /* WatchCGM */;
+			targetProxy = FF378C0F27D3480400A1C3F8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		FF378BF127D3480200A1C3F8 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FF378BF227D3480200A1C3F8 /* Base */,
+			);
+			name = Interface.storyboard;
+			sourceTree = "<group>";
+		};
 		FF62071927C5CF010009D296 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -175,6 +485,114 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		FF378C1327D3480400A1C3F8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P8RDT88SUS;
+				GENERATE_INFOPLIST_FILE = YES;
+				IBSC_MODULE = WatchCGM_WatchKit_Extension;
+				INFOPLIST_KEY_CFBundleDisplayName = WatchCGM;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.newtonjapan.BloodGlucose;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.newtonjapan.BloodGlucose.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+			};
+			name = Debug;
+		};
+		FF378C1427D3480400A1C3F8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P8RDT88SUS;
+				GENERATE_INFOPLIST_FILE = YES;
+				IBSC_MODULE = WatchCGM_WatchKit_Extension;
+				INFOPLIST_KEY_CFBundleDisplayName = WatchCGM;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.newtonjapan.BloodGlucose;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.newtonjapan.BloodGlucose.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+			};
+			name = Release;
+		};
+		FF378C1627D3480400A1C3F8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "WatchCGM WatchKit Extension/WatchCGM WatchKit Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P8RDT88SUS;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "WatchCGM WatchKit Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "WatchCGM WatchKit Extension";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = ComplicationController;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_WKExtensionDelegateClassName = ExtensionDelegate;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.newtonjapan.BloodGlucose.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+			};
+			name = Debug;
+		};
+		FF378C1727D3480400A1C3F8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_ENTITLEMENTS = "WatchCGM WatchKit Extension/WatchCGM WatchKit Extension.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P8RDT88SUS;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "WatchCGM WatchKit Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "WatchCGM WatchKit Extension";
+				INFOPLIST_KEY_CLKComplicationPrincipalClass = ComplicationController;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_WKExtensionDelegateClassName = ExtensionDelegate;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.newtonjapan.BloodGlucose.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 8.3;
+			};
+			name = Release;
+		};
 		FF62072427C5CF020009D296 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -289,19 +707,25 @@
 		};
 		FF62072727C5CF020009D296 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 357A62F3B5FA31F2D6709C15 /* Pods-BloodGlucose.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = BloodGlucose/BloodGlucose.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P8RDT88SUS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BloodGlucose/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please permit to read your blood glucose record to analize.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app use your photo album to check what did you do around the event timeing.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -310,25 +734,34 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.newtonjapan.BloodGlucose;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_OBJC_BRIDGING_HEADER = "BloodGlucose-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
 		FF62072827C5CF020009D296 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AAF7C537D77CD857A73DAEE0 /* Pods-BloodGlucose.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = BloodGlucose/BloodGlucose.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P8RDT88SUS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = BloodGlucose/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please permit to read your blood glucose record to analize.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app use your photo album to check what did you do around the event timeing.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -337,13 +770,33 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.newtonjapan.BloodGlucose;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SWIFT_OBJC_BRIDGING_HEADER = "BloodGlucose-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		FF378C1827D3480400A1C3F8 /* Build configuration list for PBXNativeTarget "WatchCGM WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF378C1627D3480400A1C3F8 /* Debug */,
+				FF378C1727D3480400A1C3F8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FF378C1927D3480400A1C3F8 /* Build configuration list for PBXNativeTarget "WatchCGM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FF378C1327D3480400A1C3F8 /* Debug */,
+				FF378C1427D3480400A1C3F8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		FF62070827C5CF010009D296 /* Build configuration list for PBXProject "BloodGlucose" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

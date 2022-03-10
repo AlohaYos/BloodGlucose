@@ -6,19 +6,52 @@
 //
 
 #import "AppDelegate.h"
+#import "ViewController.h"
+
+NSString* logText = @"";
 
 @interface AppDelegate ()
-
+	
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	// Override point for customization after application launch.
+	
+	[self logging:@"didFinishLaunchingWithOptions"];
+
+	if ([WCSession isSupported]) {
+		_session = [WCSession defaultSession];
+		_session.delegate = self;
+		[_session activateSession];
+	}
+
+	// ヘルスキットのオブザーバー設置
+	[self setupHealthKitObserve];
+
+	// バックグラウンド処理を設置
+	//[self registerBackgroundTasks];
+
+	[NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(launchDefferedJob) userInfo:nil repeats:NO];
+	[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(logUpdate) userInfo:nil repeats:YES];
+
 	return YES;
 }
 
+- (void)launchDefferedJob
+{
+	[self logging:@"launchDefferedJob"];
+
+	UIViewController* rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+	_mainVC = rootVC;
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+	[self logging:@"applicationDidEnterBackground"];
+//	[self scheduleNextBackgroundJob];	// 次のバックグラウンド処理
+}
 
 #pragma mark - UISceneSession lifecycle
 
@@ -36,5 +69,250 @@
 	// Use this method to release any resources that were specific to the discarded scenes, as they will not return.
 }
 
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+	[self logging:@"didReceiveRemoteNotification"];
+	NSLog(@"Received notification: %@", userInfo);
+	
+	completionHandler(UIBackgroundFetchResultNewData);
+}
+
+// WatchKit extensionとの会話
+- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void (^)(NSDictionary *))reply{
+	
+	[self logging:@"handleWatchKitExtensionRequest"];
+	// 情報が更新されたことをViewControllerへアプリ内通知し、
+	// Apple Watchから渡されたuserInfoパラメータ（内容はボタン番号）を渡す
+	NSNotification *n =	[NSNotification notificationWithName:APP_NOTIFY_NAME object:self userInfo:userInfo];
+	[[NSNotificationCenter defaultCenter] postNotification:n];
+	
+	// Apple Watchへ応答を返す
+	NSDictionary *response;
+	response = @{@"response" : @""};
+	reply(response);
+}
+
+// 情報が更新された時の通知先（アプリ内）を登録する
+- (void)registerLifeLogAddNotificationTo:(id)target selector:(SEL)selector {
+	
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc addObserver:target selector:selector name:APP_NOTIFY_NAME object:nil];
+}
+
+
+#pragma mark - Backgound task
+
+#define BACKGROUND_INTERVAL_MINUTES	10
+int backgroundCount = 0;
+static NSString* refreshTaskID = @"com.newtonjapan.bloodglucose.background.refresh";
+static NSString* processingTaskID = @"com.newtonjapan.bloodglucose.background.process";
+
+/*
+-(void)configureProcessingTask {
+	if (@available(iOS 13.0, *)) {
+		NSLog(@"configureProcessingTask");
+		[[BGTaskScheduler sharedScheduler] registerForTaskWithIdentifier:refreshTaskID
+															  usingQueue:nil
+														   launchHandler:^(BGTask *task) {
+			[self scheduleLocalNotifications];
+			// [self handleProcessingTask:task];
+			[self handleAppRefresh:task];
+		}];
+	} else {
+		// No fallback
+	}
+}
+
+ -(void)scheduleLocalNotifications {
+
+	backgroundCount++;
+	[ShareData setObject:[NSNumber numberWithInt:backgroundCount] forKey:@"backgroundCount"];
+
+	[_mainVC performSelector:@selector(refreshTask)];
+}
+
+-(void)handleProcessingTask:(BGTask *)task API_AVAILABLE(ios(13.0)){
+	//do things with task
+	backgroundCount++;
+	[ShareData setObject:[NSNumber numberWithInt:backgroundCount] forKey:@"backgroundCount"];
+}
+*/
+
+/*
+-(void)scheduleProcessingTask {
+	if (@available(iOS 13.0, *)) {
+		NSLog(@"scheduleProcessingTask");
+		NSError *error = NULL;
+		// cancel existing task (if any)
+		[BGTaskScheduler.sharedScheduler cancelTaskRequestWithIdentifier:refreshTaskID];
+		// new task
+		BGProcessingTaskRequest *request = [[BGProcessingTaskRequest alloc] initWithIdentifier:refreshTaskID];
+		request.requiresNetworkConnectivity = YES;
+		request.requiresExternalPower = NO;
+		request.earliestBeginDate = [NSDate dateWithTimeIntervalSinceNow:BACKGROUND_INTERVAL_MINUTES*60];
+		BOOL success = [[BGTaskScheduler sharedScheduler] submitTaskRequest:request error:&error];
+		if (!success) {
+			// Errorcodes https://stackoverflow.com/a/58224050/872051
+			NSLog(@"Failed to submit request: %@", error);
+		} else {
+			NSLog(@"Success submit request %@", request);
+		}
+	} else {
+		// No fallback
+	}
+}
+*/
+
+- (void)registerBackgroundTasks {
+	[self logging:@"registerBackgroundTasks"];
+	[[BGTaskScheduler sharedScheduler] registerForTaskWithIdentifier:processingTaskID usingQueue:nil launchHandler:^(__kindof BGTask * _Nonnull task) {
+		[self logging:@"registerForTaskWithIdentifier"];
+		[self backgroundJob:task];
+		[task setTaskCompletedWithSuccess:true];
+	}];
+}
+
+- (void)backgroundJob:(BGProcessingTask *)task {
+	[self logging:@"backgroundJob"];
+	[self scheduleNextBackgroundJob];	// 次のバックグラウンド処理
+
+	NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+	[queue addOperationWithBlock: ^{
+
+		// DO THE JOB
+		[self logging:@"refreshTask"];
+		[_mainVC performSelector:@selector(refreshTask)];
+		backgroundCount++;
+		[ShareData setObject:[NSNumber numberWithInt:backgroundCount] forKey:@"backgroundCount"];
+		[task setTaskCompletedWithSuccess:!queue.isSuspended];
+	}];
+
+	// タスクを完了させられずに終了した場合の処理
+	[task setExpirationHandler:^{
+		[queue cancelAllOperations];
+	}];
+}
+
+- (void)scheduleNextBackgroundJob {
+	[self logging:@"scheduleNextBackgroundJob"];
+	BGProcessingTaskRequest *request = [[BGProcessingTaskRequest alloc] initWithIdentifier:processingTaskID];
+	[request setRequiresNetworkConnectivity:NO];	// 通信が無い時間にも起動する
+	[request setRequiresExternalPower:NO];	// 充電中でなくても実行する
+	[request setEarliestBeginDate:[NSDate dateWithTimeIntervalSinceNow:10]]; //Start after 10 seconds
+
+	NSError *requestError;
+	[[BGTaskScheduler sharedScheduler] submitTaskRequest:request error:&requestError];
+	if (requestError) {
+		NSLog(@"Exception: %@", requestError);
+		[self logging:[NSString stringWithFormat:@"submitTaskRequest Error: %@", requestError]];
+		
+	}
+}
+
+/*
+// lldbコンソールでデバッグ実行する
+
+// 時間経過をシミュレート
+e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateExpirationForTaskWithIdentifier:@"com.newtonjapan.bloodglucose.background.refresh"]
+// タスクの起動をシミュレート
+e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateLaunchForTaskWithIdentifier:@"com.newtonjapan.bloodglucose.background.refresh"]
+
+
+ */
+
+- (void)session:(WCSession *)session didReceiveMessage:(nonnull NSDictionary<NSString *,id> *)message replyHandler:(nonnull void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler
+{
+	if ([message objectForKey:@"retrieveData"])
+	{
+		replyHandler(@{@"a":@"hello"});
+	}
+}
+
+#pragma mark - Logging
+
+- (void)logging:(NSString*)logmessage
+{
+	logText = [NSString stringWithFormat:@"%@\n%@", logmessage,logText];
+	NSLog(logmessage);
+}
+
+-(void)logUpdate
+{
+	if(_mainVC){
+		[_mainVC performSelector:@selector(loggingWithClear:) withObject:logText];
+	}
+}
+
+#pragma mark - HealthKit
+
+// 血糖値の変動検知を登録
+- (void)setupHealthKitObserve
+{
+	[self logging:@"setupHealthKitObserve"];
+	if ([HKHealthStore isHealthDataAvailable]) {
+		self.healthStore = [[HKHealthStore alloc] init];
+		NSSet* readTypes = [NSSet setWithObject:[HKObjectType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodGlucose]];
+		
+		[self.healthStore requestAuthorizationToShareTypes:nil
+												 readTypes:readTypes
+												completion:^(BOOL success, NSError *error)
+		 {
+			 if (!error && success)
+			 {
+				 [self observeHealthKit];
+
+				 [self.healthStore enableBackgroundDeliveryForType:
+						[HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodGlucose]
+						frequency:HKUpdateFrequencyImmediate withCompletion:^(BOOL success, NSError *error){}];
+			 }
+		 }];
+	}
+}
+
+int healthKitNotifyInProgress = NO;
+
+// 値に変動があった場合に呼び出される
+- (void)observeHealthKit
+{
+	[self logging:@"requestAuthorizationToShareTypes"];
+
+	HKObserverQuery *query = [[HKObserverQuery alloc]initWithSampleType:[HKSampleType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodGlucose]
+						predicate:nil
+	updateHandler:^(HKObserverQuery *query, HKObserverQueryCompletionHandler completionHandler, NSError *error)
+	{
+		if(!healthKitNotifyInProgress){
+			healthKitNotifyInProgress = YES;
+			
+			if (!error)
+			{
+				[self logging:@"HealthKit Notify"];
+				
+				if(_mainVC){
+					[_mainVC performSelector:@selector(healthKitNotifyJob)];
+				}
+				if (completionHandler)
+				{
+					completionHandler();
+				}
+
+			//	[self queryWithCompletionHandler:completionHandler];
+			}
+			else
+			{
+				if (completionHandler)
+				{
+					completionHandler();
+				}
+			}
+			healthKitNotifyInProgress = NO;
+		}
+		else {
+			// Query already in progress
+		}
+		
+	}];
+
+	[self.healthStore executeQuery:query];
+}
 
 @end
