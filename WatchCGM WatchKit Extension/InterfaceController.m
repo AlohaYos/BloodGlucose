@@ -36,6 +36,8 @@ WCSession *session;
 	session = [WCSession defaultSession];
 	session.delegate = self;
 	[session activateSession];
+
+	[_labelBigCGMValue setTextColor:[UIColor cyanColor]];
 }
 
 - (void)willActivate {
