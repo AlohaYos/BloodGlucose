@@ -5,6 +5,7 @@
 //  Created by Yos Hashimoto on 2022/02/23.
 //
 
+#import <UserNotifications/UserNotifications.h>
 #import "AppDelegate.h"
 #import "ViewController.h"
 
@@ -45,12 +46,19 @@ NSString* logText = @"";
 
 	UIViewController* rootVC = [UIApplication sharedApplication].keyWindow.rootViewController;
 	_mainVC = rootVC;
+	
+	[self prepareForNofify];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
 	[self logging:@"applicationDidEnterBackground"];
 //	[self scheduleNextBackgroundJob];	// 次のバックグラウンド処理
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+	[self requestRebootNotify];
 }
 
 #pragma mark - UISceneSession lifecycle
@@ -313,6 +321,67 @@ int healthKitNotifyInProgress = NO;
 	}];
 
 	[self.healthStore executeQuery:query];
+}
+
+#pragma mark - Local notification
+
+- (void)prepareForNofify {
+
+	NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+	NSString* prepared = [userdefault objectForKey:@"prepareForNofify"];
+	
+	if(![prepared isEqualToString:@"Prepared"]){
+#if 1
+		NSString *title    = @"通知許可のお願い";
+		NSString *message  = @"BloodGlucoseアプリからの情報を表示するために、通知を許可してください。";
+		NSString *yesLabel = @"OK";
+#else
+		NSString *title    = NSLocalizedString(@"Notify_Permission", nil);	//"通知許可のお願い";
+		NSString *message  = NSLocalizedString(@"Please_grant_permission_to_notify", nil);	//"Tellus-HMIアプリからの情報を表示するために、通知を許可してください。";
+		NSString *yesLabel = NSLocalizedString(@"OK_button_title", nil);	// "OK";
+#endif
+		// 事前了解メッセージ
+		UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+		[alertController addAction:[UIAlertAction actionWithTitle:yesLabel style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+			[[UNUserNotificationCenter currentNotificationCenter] requestAuthorizationWithOptions:
+			 (UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert ) completionHandler:^(BOOL granted, NSError *_Nullable error) {
+				if(granted) {
+				}
+				NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+				[ud setValue:@"Prepared" forKey:@"prepareForNofify"];
+			 }];
+			[[UIApplication sharedApplication]  registerForRemoteNotifications];
+		}]];
+		
+		UIViewController* baseVC = [UIApplication sharedApplication].keyWindow.rootViewController;
+		if(baseVC.presentedViewController){
+			baseVC = baseVC.presentedViewController;
+		}
+		if(baseVC){
+			[baseVC presentViewController:alertController animated:YES completion:nil];
+		}
+	}
+}
+
+- (void)requestRebootNotify
+{
+#if 1
+	NSString *mainMessage = @"BloodGlucoseを常に起動";
+	NSString *detailMessage = @"ここをタップしてBloodGlucoseアプリへ戻ります。";
+#else
+	NSString *mainMessage = NSLocalizedString(@"Tap_here_to_return_to_TellusHMI_app", nil);	//"ここをタップしてTellus-HMIアプリへ戻ります";
+	NSString *detailMessage = NSLocalizedString(@"You_can_also_tap_TellusHMI_icon_to_return_to_app", nil);	//"Tellus-HMIアイコンをタップして戻ることもできます。";
+#endif
+	
+	// 通知を作成
+	UNMutableNotificationContent *unMutableNotice = [UNMutableNotificationContent new];
+	// title、body、soundを設定
+	unMutableNotice.title = mainMessage;
+	unMutableNotice.body = detailMessage;
+	unMutableNotice.sound = [UNNotificationSound defaultSound];
+	UNTimeIntervalNotificationTrigger *triger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats:NO];
+	UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"bloodGlucoseNotifyID" content:unMutableNotice trigger:triger];
+	[UNUserNotificationCenter.currentNotificationCenter addNotificationRequest:request withCompletionHandler:nil];
 }
 
 @end

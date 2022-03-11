@@ -13,7 +13,7 @@
                     <items>
                         <group width="1" alignment="left" layout="vertical" id="Wk6-zp-N65">
                             <items>
-                                <label alignment="center" text="888" textAlignment="center" id="5Bb-rC-z7A">
+                                <label alignment="center" text="---" textAlignment="center" id="5Bb-rC-z7A">
                                     <fontDescription key="font" type="system" pointSize="80"/>
                                 </label>
                                 <label alignment="right" text="mg/dL" textAlignment="right" id="kmG-H6-92o"/>

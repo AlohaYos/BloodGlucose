@@ -254,8 +254,8 @@
             filePath = "BloodGlucose/AppDelegate.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "283"
-            endingLineNumber = "283"
+            startingLineNumber = "291"
+            endingLineNumber = "291"
             landmarkName = "-observeHealthKit"
             landmarkType = "7">
          </BreakpointContent>
