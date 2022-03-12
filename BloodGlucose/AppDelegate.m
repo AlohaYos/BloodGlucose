@@ -52,8 +52,20 @@ NSString* logText = @"";
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+	// SceneDelegate sceneDidEnterBackground:(UIScene *)scene から呼んでいる
+
 	[self logging:@"applicationDidEnterBackground"];
 //	[self scheduleNextBackgroundJob];	// 次のバックグラウンド処理
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+	// SceneDelegate sceneWillEnterForeground:(UIScene *)scene から呼んでいる
+
+	[self logging:@"applicationWillEnterForeground"];
+	if(_mainVC){
+		[_mainVC performSelector:@selector(timerJob)];
+	}
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -100,6 +112,14 @@ NSString* logText = @"";
 	reply(response);
 }
 
+- (void)session:(WCSession *)session didReceiveMessage:(nonnull NSDictionary<NSString *,id> *)message replyHandler:(nonnull void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler
+{
+	if ([message objectForKey:@"retrieveData"])
+	{
+		replyHandler(@{@"a":@"hello"});
+	}
+}
+
 // 情報が更新された時の通知先（アプリ内）を登録する
 - (void)registerLifeLogAddNotificationTo:(id)target selector:(SEL)selector {
 	
@@ -107,69 +127,13 @@ NSString* logText = @"";
 	[nc addObserver:target selector:selector name:APP_NOTIFY_NAME object:nil];
 }
 
-
+/*
 #pragma mark - Backgound task
 
 #define BACKGROUND_INTERVAL_MINUTES	10
 int backgroundCount = 0;
 static NSString* refreshTaskID = @"com.newtonjapan.bloodglucose.background.refresh";
 static NSString* processingTaskID = @"com.newtonjapan.bloodglucose.background.process";
-
-/*
--(void)configureProcessingTask {
-	if (@available(iOS 13.0, *)) {
-		NSLog(@"configureProcessingTask");
-		[[BGTaskScheduler sharedScheduler] registerForTaskWithIdentifier:refreshTaskID
-															  usingQueue:nil
-														   launchHandler:^(BGTask *task) {
-			[self scheduleLocalNotifications];
-			// [self handleProcessingTask:task];
-			[self handleAppRefresh:task];
-		}];
-	} else {
-		// No fallback
-	}
-}
-
- -(void)scheduleLocalNotifications {
-
-	backgroundCount++;
-	[ShareData setObject:[NSNumber numberWithInt:backgroundCount] forKey:@"backgroundCount"];
-
-	[_mainVC performSelector:@selector(refreshTask)];
-}
-
--(void)handleProcessingTask:(BGTask *)task API_AVAILABLE(ios(13.0)){
-	//do things with task
-	backgroundCount++;
-	[ShareData setObject:[NSNumber numberWithInt:backgroundCount] forKey:@"backgroundCount"];
-}
-*/
-
-/*
--(void)scheduleProcessingTask {
-	if (@available(iOS 13.0, *)) {
-		NSLog(@"scheduleProcessingTask");
-		NSError *error = NULL;
-		// cancel existing task (if any)
-		[BGTaskScheduler.sharedScheduler cancelTaskRequestWithIdentifier:refreshTaskID];
-		// new task
-		BGProcessingTaskRequest *request = [[BGProcessingTaskRequest alloc] initWithIdentifier:refreshTaskID];
-		request.requiresNetworkConnectivity = YES;
-		request.requiresExternalPower = NO;
-		request.earliestBeginDate = [NSDate dateWithTimeIntervalSinceNow:BACKGROUND_INTERVAL_MINUTES*60];
-		BOOL success = [[BGTaskScheduler sharedScheduler] submitTaskRequest:request error:&error];
-		if (!success) {
-			// Errorcodes https://stackoverflow.com/a/58224050/872051
-			NSLog(@"Failed to submit request: %@", error);
-		} else {
-			NSLog(@"Success submit request %@", request);
-		}
-	} else {
-		// No fallback
-	}
-}
-*/
 
 - (void)registerBackgroundTasks {
 	[self logging:@"registerBackgroundTasks"];
@@ -216,6 +180,7 @@ static NSString* processingTaskID = @"com.newtonjapan.bloodglucose.background.pr
 		
 	}
 }
+*/
 
 /*
 // lldbコンソールでデバッグ実行する
@@ -227,14 +192,6 @@ e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateLaunchForTaskWith
 
 
  */
-
-- (void)session:(WCSession *)session didReceiveMessage:(nonnull NSDictionary<NSString *,id> *)message replyHandler:(nonnull void (^)(NSDictionary<NSString *,id> * _Nonnull))replyHandler
-{
-	if ([message objectForKey:@"retrieveData"])
-	{
-		replyHandler(@{@"a":@"hello"});
-	}
-}
 
 #pragma mark - Logging
 
@@ -373,6 +330,11 @@ int healthKitNotifyInProgress = NO;
 	NSString *detailMessage = NSLocalizedString(@"You_can_also_tap_TellusHMI_icon_to_return_to_app", nil);	//"Tellus-HMIアイコンをタップして戻ることもできます。";
 #endif
 	
+	[self requestNotifyMessage:mainMessage detailMessage:detailMessage];
+}
+
+- (void)requestNotifyMessage:(NSString*)mainMessage detailMessage:(NSString*)detailMessage
+{
 	// 通知を作成
 	UNMutableNotificationContent *unMutableNotice = [UNMutableNotificationContent new];
 	// title、body、soundを設定

@@ -7,11 +7,12 @@
 
 #import "ComplicationController.h"
 #import "ShareData.h"
+#import "Common.h"
 
 #define	D_COMPLICATION_UPDATE_INTERVAL	10
-#define CGM_MIN_VAL	70
-#define CGM_MAX_VAL	250
-#define CGM_START_VAL	170
+//#define CGM_MIN_VAL	70
+//#define CGM_MAX_VAL	220
+#define CGM_START_VAL	100
 
 @implementation ComplicationController
 

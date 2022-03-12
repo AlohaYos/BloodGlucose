@@ -184,6 +184,7 @@ NSDate* currentDate = nil;
 	_chartView.rightAxis.enabled = NO;
 	_chartView.legend.form = ChartLegendFormLine;
 	[_chartView setScaleEnabled:YES];
+	[_chartView animateWithXAxisDuration:2.0 yAxisDuration:2.0];
 
 	// 横軸の設定
 	ChartXAxis *xAxis = _chartView.xAxis;
@@ -283,38 +284,6 @@ int originalTopInset = -1;
 
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-	[UIView animateWithDuration:0.1f
-						  delay:0.0f
-						options:UIViewAnimationOptionCurveEaseIn
-					 animations:^{
-						_scrollBaseview.alpha = 0;
-						_photoZoomBaseview.alpha = 0;
-					 } completion:^(BOOL finished) {
-					 }];
-
-/*
-	CGRect frame = _scrollBaseview.frame;
-
-	UIWindow* keyWin = [[UIApplication sharedApplication] keyWindow];
-
-	switch(toInterfaceOrientation){
-		case UIDeviceOrientationPortrait:
-			frame.origin.x = [keyWin safeAreaInsets].top;
-			break;
-		case UIDeviceOrientationLandscapeLeft:
-		case UIDeviceOrientationLandscapeRight:
-			frame.origin.x = 0;
-			break;
-		default:
-			break;
-	}
-	_scrollBaseview.frame = frame;
-*/
-}
-
-
 - (void)orientationJob
 {
 	UIDeviceOrientation orientation = [[UIDevice currentDevice] orientation];
@@ -400,12 +369,6 @@ int timerJobCount = 0;
 - (void)updateChartData
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		if (self.shouldHideData)
-		{
-			_chartView.data = nil;
-			return;
-		}
-		
 		[self setDataCount:_sliderX.value range:30.0];
 	});
 }
@@ -703,10 +666,26 @@ int healthkitNofityCount = 0;
 	[self getBloodGlucose];
 	[self updateChartData];
 	[self displayDataValues];
+	
+	[self checkGlucoseValueRange];
 }
 
-
 int getBloodGlucoseCount = 0;
+double latestCGMValue = 100;
+
+- (void)checkGlucoseValueRange
+{
+	dispatch_async(dispatch_get_main_queue(), ^{
+		if(latestCGMValue<CGM_MIN_VAL) {
+			appDelegate = [UIApplication sharedApplication].delegate;
+			[appDelegate requestNotifyMessage:@"血糖値アラーム" detailMessage:[NSString stringWithFormat:@"低血糖です %.0f", latestCGMValue]];
+		}
+		if(CGM_MAX_VAL<latestCGMValue) {
+			appDelegate = [UIApplication sharedApplication].delegate;
+			[appDelegate requestNotifyMessage:@"血糖値アラーム" detailMessage:[NSString stringWithFormat:@"高血糖です %.0f", latestCGMValue]];
+		}
+   });
+}
 
 - (void)getBloodGlucose {
 	
@@ -750,6 +729,7 @@ int getBloodGlucoseCount = 0;
 											
 											NSTimeInterval tt = [endDate timeIntervalSince1970];
 											double gluglu = bloodGlucose_mg_per_dL;
+											latestCGMValue = gluglu;
 											tStr = [NSString stringWithFormat:@"%@,@%.0f", tStr,tt];
 											gStr = [NSString stringWithFormat:@"%@,@%.0f", gStr,gluglu];
 											//NSLog(@"%@",[NSString stringWithFormat:@"%.fmg/dL(%@)",bloodGlucose_mg_per_dL, endDate]);

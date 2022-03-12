@@ -175,11 +175,8 @@ int receiveCount = 0;
 	[_labelCGMValue setText:[NSString stringWithFormat:@"%.0fmd/dL", [cgmValue doubleValue]]];
 	[datetimeArray insertObject:datetime atIndex:0];
 
-#define D_CGM_RANGE_MIN	70
-#define D_CGM_RANGE_MAX	180
-
 	[_labelBigCGMValue setText:[NSString stringWithFormat:@"%.0f", [cgmValue doubleValue]]];
-	if(([cgmValue doubleValue]<=D_CGM_RANGE_MIN)||([cgmValue doubleValue]>D_CGM_RANGE_MAX)) {
+	if(([cgmValue doubleValue]<=CGM_MIN_VAL)||([cgmValue doubleValue]>CGM_MAX_VAL)) {
 		[_labelBigCGMValue setTextColor:[UIColor redColor]];
 	}
 	else {
