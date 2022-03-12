@@ -671,24 +671,54 @@ int healthkitNofityCount = 0;
 }
 
 int getBloodGlucoseCount = 0;
-double latestCGMValue = 100;
+double latestCGMValue = 0;
+double latestCGMValue1 = 0;
+double latestCGMValue2 = 0;
+#define D_TREND_CHECK_MARGIN	5
 
 - (void)checkGlucoseValueRange
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		if(latestCGMValue<CGM_MIN_VAL) {
-			appDelegate = [UIApplication sharedApplication].delegate;
-			[appDelegate requestNotifyMessage:@"血糖値アラーム" detailMessage:[NSString stringWithFormat:@"低血糖です %.0f", latestCGMValue]];
+
+		if(latestCGMValue>0) {
+			if(latestCGMValue<CGM_MIN_VAL) {
+				appDelegate = [UIApplication sharedApplication].delegate;
+				[appDelegate requestNotifyMessage:@"血糖値アラーム" detailMessage:[NSString stringWithFormat:@"低血糖です %.0f", latestCGMValue]];
+			}
+			if(CGM_MAX_VAL<latestCGMValue) {
+				appDelegate = [UIApplication sharedApplication].delegate;
+				[appDelegate requestNotifyMessage:@"血糖値アラーム" detailMessage:[NSString stringWithFormat:@"高血糖です %.0f", latestCGMValue]];
+			}
 		}
-		if(CGM_MAX_VAL<latestCGMValue) {
-			appDelegate = [UIApplication sharedApplication].delegate;
-			[appDelegate requestNotifyMessage:@"血糖値アラーム" detailMessage:[NSString stringWithFormat:@"高血糖です %.0f", latestCGMValue]];
+		
+		// 5分毎に収集するCGM値が上昇トレンドか下降トレンドかをチェック
+		int trend = 0;
+		if((latestCGMValue1>0)&&(latestCGMValue2>0)){
+			double ave = (latestCGMValue+latestCGMValue1+latestCGMValue2)/3;
+			if(ave+D_TREND_CHECK_MARGIN<latestCGMValue) {
+				// 上昇
+				trend = +1;
+			}
+			if(latestCGMValue<ave-D_TREND_CHECK_MARGIN) {
+				// 下降
+				trend = -1;
+			}
 		}
+		else {
+			trend = -100;	// トレンド未決定
+		}
+		[ShareData setObject:[NSNumber numberWithInt:trend] forKey:@"cgmTrend"];
    });
 }
 
+- (void)setLatestGlucoseValue:(double)val
+{
+	latestCGMValue2 = latestCGMValue1;
+	latestCGMValue1 = latestCGMValue;
+	latestCGMValue = val;
+}
+
 - (void)getBloodGlucose {
-	
 	[self.glucoseValue removeAllObjects];
 	
 #if !TARGET_OS_SIMULATOR
@@ -729,7 +759,7 @@ double latestCGMValue = 100;
 											
 											NSTimeInterval tt = [endDate timeIntervalSince1970];
 											double gluglu = bloodGlucose_mg_per_dL;
-											latestCGMValue = gluglu;
+											[self setLatestGlucoseValue:gluglu];
 											tStr = [NSString stringWithFormat:@"%@,@%.0f", tStr,tt];
 											gStr = [NSString stringWithFormat:@"%@,@%.0f", gStr,gluglu];
 											//NSLog(@"%@",[NSString stringWithFormat:@"%.fmg/dL(%@)",bloodGlucose_mg_per_dL, endDate]);

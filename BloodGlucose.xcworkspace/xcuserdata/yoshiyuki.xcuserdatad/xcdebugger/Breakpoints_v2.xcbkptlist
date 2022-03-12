@@ -14,8 +14,8 @@
             filePath = "BloodGlucose/ViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "727"
-            endingLineNumber = "727"
+            startingLineNumber = "757"
+            endingLineNumber = "757"
             landmarkName = "-getBloodGlucose"
             landmarkType = "7">
          </BreakpointContent>
@@ -78,8 +78,8 @@
             filePath = "BloodGlucose/ViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "794"
-            endingLineNumber = "794"
+            startingLineNumber = "824"
+            endingLineNumber = "824"
             landmarkName = "-getPhotoAround:minutesWidthBefore:minutesWidthAfter:"
             landmarkType = "7">
          </BreakpointContent>
@@ -94,8 +94,8 @@
             filePath = "BloodGlucose/ViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "805"
-            endingLineNumber = "805"
+            startingLineNumber = "835"
+            endingLineNumber = "835"
             landmarkName = "-getPhotoAround:minutesWidthBefore:minutesWidthAfter:"
             landmarkType = "7">
          </BreakpointContent>
@@ -142,8 +142,8 @@
             filePath = "BloodGlucose/ViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "915"
-            endingLineNumber = "915"
+            startingLineNumber = "945"
+            endingLineNumber = "945"
             landmarkName = "-notifyToWatch"
             landmarkType = "7">
          </BreakpointContent>
@@ -190,8 +190,8 @@
             filePath = "WatchCGM WatchKit Extension/ComplicationController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "259"
-            endingLineNumber = "259"
+            startingLineNumber = "275"
+            endingLineNumber = "275"
             landmarkName = "-currentValueCGM"
             landmarkType = "7">
          </BreakpointContent>
