@@ -220,6 +220,8 @@ NSDate* currentDate = nil;
 	
 	// ヘルスキットの血糖値がアップデートされたらコールバックされるように登録
 	//[self registerBloodGlucoseObserver];
+
+	[self getBloodGlucose];
 }
 
 int originalFrameZoomHeight = -1;
@@ -294,7 +296,7 @@ int timerJobCount = 0;
 - (void)timerJob
 {
 	NSLog(@"### timerJOB");
-	[self refreshTask];
+//	[self refreshTask];
 	[self updateChartData];
 
 	
@@ -659,14 +661,18 @@ int healthkitNofityCount = 0;
 }
 */
 
+- (void)getGlucoseDataAndDraw
+{
+	[self getBloodGlucose];
+	[self updateChartData];
+	[self displayDataValues];
+}
+
 - (void)healthKitNotifyJob
 {
 	healthkitNofityCount++;
 	[ShareData setObject:[NSNumber numberWithInt:healthkitNofityCount] forKey:@"healthkitNofityCount"];
-	[self getBloodGlucose];
-	[self updateChartData];
-	[self displayDataValues];
-	
+	[self getGlucoseDataAndDraw];
 	[self checkGlucoseValueRange];
 }
 
@@ -693,6 +699,18 @@ double latestCGMValue2 = 0;
 		
 		// 5分毎に収集するCGM値が上昇トレンドか下降トレンドかをチェック
 		int trend = 0;
+#if 1
+		if(latestCGMValue1>0){
+			if(latestCGMValue1+D_TREND_CHECK_MARGIN<=latestCGMValue) {
+				// 上昇
+				trend = +1;
+			}
+			if(latestCGMValue<=latestCGMValue1-D_TREND_CHECK_MARGIN) {
+				// 下降
+				trend = -1;
+			}
+		}
+#else
 		if((latestCGMValue1>0)&&(latestCGMValue2>0)){
 			double ave = (latestCGMValue+latestCGMValue1+latestCGMValue2)/3;
 			if(ave+D_TREND_CHECK_MARGIN<latestCGMValue) {
@@ -704,6 +722,7 @@ double latestCGMValue2 = 0;
 				trend = -1;
 			}
 		}
+#endif
 		else {
 			trend = -100;	// トレンド未決定
 		}
@@ -912,7 +931,7 @@ double latestCGMValue2 = 0;
 
 - (void)refreshTask {
 	NSLog(@"refreshTask VC");
-	[self getBloodGlucose];
+	[self getGlucoseDataAndDraw];
 }
 
 - (IBAction)shootButtonPushed:(id)sender {
