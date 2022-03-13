@@ -930,24 +930,51 @@ double latestCGMValue2 = 0;
 	[appDelegate registerLifeLogAddNotificationTo:self selector:@selector(myTurn)];
 }
 
+/*
 - (void)refreshTask {
 	NSLog(@"refreshTask VC");
 	[self getGlucoseDataAndDraw];
 }
+*/
 
+/*
 - (IBAction)shootButtonPushed:(id)sender {
 
 	[self sendDataToWatch];
 }
+*/
+
+int notifyToWatchCount = 0;
 
 - (void)sendCGMtoWatch:(double)valueCGM datetime:(NSDate*)datetime
 {
+	NSLog(@"### sendCGMtoWatch:CGM%.0f date:%@", valueCGM, datetime);
+	NSMutableDictionary* dict = [NSMutableDictionary new];
+	[dict setValue:[NSNumber numberWithDouble:valueCGM] forKey:@"currentCGM"];
+	[dict setValue:datetime forKey:@"currentDate"];
+
+	[[WCSession defaultSession] sendMessage:dict
+							   replyHandler:^(NSDictionary *replyHandler) {
+									NSLog(@"SendMessage SUCCESS");
+							   }
+							   errorHandler:^(NSError *error) {
+									NSLog(@"SendMessage ERROR. Try to transferUserInfo");
+									[[WCSession defaultSession] transferUserInfo:dict];
+							   }
+	 ];
+
+	notifyToWatchCount++;
+	[ShareData setObject:[NSNumber numberWithInt:notifyToWatchCount] forKey:@"notifyToWatchCount"];
+
+	/*
 	// 最新のCGM値をShare領域に格納する
 	[ShareData setObject:[NSNumber numberWithDouble:valueCGM] forKey:@"currentCGM"];
 	[ShareData setObject:currentDate forKey:@"currentDate"];
 	[self sendDataToWatch];
+	*/
 }
 
+/*
 - (void)sendDataToWatch {
 
 	// 現在時刻を追加
@@ -959,7 +986,6 @@ double latestCGMValue2 = 0;
 }
 
 // Watchに通知
-int notifyToWatchCount = 0;
 
 - (void)notifyToWatch {
 	CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (CFStringRef)GLOBAL_NOTIFY_NAME, (__bridge const void *)(self), NULL, YES);
@@ -982,6 +1008,7 @@ int notifyToWatchCount = 0;
 	notifyToWatchCount++;
 	[ShareData setObject:[NSNumber numberWithInt:notifyToWatchCount] forKey:@"notifyToWatchCount"];
 }
+*/
 
 // Watchから通知が到着
 - (void)notifyFromWatch {
