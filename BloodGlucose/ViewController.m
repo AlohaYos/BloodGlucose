@@ -214,14 +214,21 @@ NSDate* currentDate = nil;
 	_sliderX.value = 1.0;
 	_sliderX.maximumValue = D_MOVEAVE_MAX;
 	
-	[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(slidersValueChanged:) userInfo:nil repeats:NO];
+	[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(defferdLoadJob) userInfo:nil repeats:NO];
 	[self timerJob];
+
 	[NSTimer scheduledTimerWithTimeInterval:D_DATA_FETCH_INTERVAL target:self selector:@selector(timerJob) userInfo:nil repeats:YES];
 	
 	// ヘルスキットの血糖値がアップデートされたらコールバックされるように登録
 	//[self registerBloodGlucoseObserver];
 
 	[self getBloodGlucose];
+}
+
+- (void)defferdLoadJob
+{
+	[self updateChartData];
+//	[self getGlucoseDataAndDraw];
 }
 
 int originalFrameZoomHeight = -1;
@@ -297,7 +304,7 @@ int timerJobCount = 0;
 {
 	NSLog(@"### timerJOB");
 //	[self refreshTask];
-	[self updateChartData];
+//	[self updateChartData];
 
 	
 	timerJobCount++;
@@ -371,12 +378,12 @@ int timerJobCount = 0;
 - (void)updateChartData
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
-		[self setDataCount:_sliderX.value range:30.0];
+		[self setData];
 	});
 }
 
 
-- (void)setDataCount:(int)count range:(double)range
+- (void)setData
 {
 	NSTimeInterval now = [[NSDate date] timeIntervalSince1970];
 	NSTimeInterval hourSeconds = 3600.0;
@@ -397,7 +404,7 @@ int timerJobCount = 0;
 	NSNumber *num;
 	double ymax = 0;
 
-#if 0
+#if 1
 	// 全データをプロット
 	for (int i = 0; i < counts; i++)
 	{
@@ -563,7 +570,7 @@ int timerJobCount = 0;
 {
 	_sliderTextX.text = [@((int)_sliderX.value) stringValue];
 	
-	[self updateChartData];
+//	[self updateChartData];
 }
 
 #pragma mark - ChartViewDelegate
@@ -664,11 +671,19 @@ int healthkitNofityCount = 0;
 - (void)getGlucoseDataAndDraw
 {
 	[self getBloodGlucose];
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(getGlucoseDataAndDrawDelayJob) userInfo:nil repeats:NO];
+	});
+}
+
+- (void)getGlucoseDataAndDrawDelayJob
+{
 	[self updateChartData];
 	[self displayDataValues];
 	[self checkGlucoseValueRange];
 	[self sendCGMtoWatch:currentCGM datetime:currentDate];
 }
+
 
 - (void)healthKitNotifyJob
 {
@@ -746,7 +761,7 @@ double latestCGMValue2 = 0;
 #if !TARGET_OS_SIMULATOR
 	NSInteger limit = 0;
 	NSDate *startDate = [NSDate dateWithTimeIntervalSinceNow:-24*60*60*D_CHECK_DAYS];
-	NSPredicate* predicate = [HKQuery predicateForSamplesWithStartDate:startDate endDate:[NSDate date] options:HKQueryOptionStrictStartDate];;
+	NSPredicate* predicate = [HKQuery predicateForSamplesWithStartDate:startDate endDate:[NSDate dateWithTimeIntervalSinceNow:10] options:HKQueryOptionStrictStartDate];;
 	NSString *endKey =  HKSampleSortIdentifierEndDate;
 	NSSortDescriptor *endDate = [NSSortDescriptor sortDescriptorWithKey: endKey ascending: YES];
 	HKSampleQuery *query = [[HKSampleQuery alloc] initWithSampleType: [HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierBloodGlucose]
@@ -767,12 +782,14 @@ double latestCGMValue2 = 0;
 										NSString *gStr = @"";
 										
 										currentCGM = 0;
+										double bloodGlucose_mg_per_dL = 0.0;
+										NSDate *endDate = [NSDate now];
 										for (HKQuantitySample *quantitySample in results) {
 											HKQuantity *quantity = [quantitySample quantity];
-											double bloodGlucose_mg_per_dL = [quantity doubleValueForUnit:[[HKUnit gramUnit] unitDividedByUnit:[HKUnit literUnit]]];
+											bloodGlucose_mg_per_dL = [quantity doubleValueForUnit:[[HKUnit gramUnit] unitDividedByUnit:[HKUnit literUnit]]];
 											bloodGlucose_mg_per_dL *= 100;	// mg/dLに合わせる
 											NSNumber *gluValue = [NSNumber numberWithDouble:bloodGlucose_mg_per_dL];
-											NSDate *endDate = [quantitySample endDate];
+											endDate = [quantitySample endDate];
 											NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:
 											  endDate, @"DateTime",
 											  gluValue,@"glucoseValue",
@@ -785,9 +802,9 @@ double latestCGMValue2 = 0;
 											tStr = [NSString stringWithFormat:@"%@,@%.0f", tStr,tt];
 											gStr = [NSString stringWithFormat:@"%@,@%.0f", gStr,gluglu];
 											//NSLog(@"%@",[NSString stringWithFormat:@"%.fmg/dL(%@)",bloodGlucose_mg_per_dL, endDate]);
-											currentCGM = bloodGlucose_mg_per_dL;	// 最新値
-											currentDate = endDate;
 										}
+										currentCGM = bloodGlucose_mg_per_dL;	// 最新値
+										currentDate = endDate;
 									// シミュレータ用のサンプルデータ書き出し用　→　SampleData.hへコピー＆ペーストして使用する
 									//	NSLog(@"%@",tStr);
 									//	NSLog(@"%@",gStr);
@@ -945,14 +962,30 @@ double latestCGMValue2 = 0;
 */
 
 int notifyToWatchCount = 0;
+NSDate* lastSendDate = nil;
+double lastSendValueCGM;
 
 - (void)sendCGMtoWatch:(double)valueCGM datetime:(NSDate*)datetime
 {
 	NSLog(@"### sendCGMtoWatch:CGM%.0f date:%@", valueCGM, datetime);
+	if(lastSendDate){
+		NSComparisonResult result = [datetime compare:lastSendDate];
+		if(result == NSOrderedSame){
+			NSLog(@"Same datetime");
+			return;
+		}
+	}
+	lastSendValueCGM = valueCGM;
+	lastSendDate = datetime;
+
 	NSMutableDictionary* dict = [NSMutableDictionary new];
 	[dict setValue:[NSNumber numberWithDouble:valueCGM] forKey:@"currentCGM"];
 	[dict setValue:datetime forKey:@"currentDate"];
 
+#if 1
+	[[WCSession defaultSession] transferUserInfo:dict];
+
+#else
 	[[WCSession defaultSession] sendMessage:dict
 							   replyHandler:^(NSDictionary *replyHandler) {
 									NSLog(@"SendMessage SUCCESS");
@@ -963,6 +996,7 @@ int notifyToWatchCount = 0;
 							   }
 	 ];
 
+#endif
 	notifyToWatchCount++;
 	[ShareData setObject:[NSNumber numberWithInt:notifyToWatchCount] forKey:@"notifyToWatchCount"];
 

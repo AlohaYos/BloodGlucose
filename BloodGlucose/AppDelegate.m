@@ -254,6 +254,7 @@ int healthKitNotifyInProgress = NO;
 				
 				if(_mainVC){
 					[_mainVC performSelector:@selector(healthKitNotifyJob)];
+					[self logging:@"Did HealthKit Notify job"];
 				}
 				if (completionHandler)
 				{
