@@ -15,3 +15,7 @@
 // 血糖値アラームの上限下限
 #define CGM_MIN_VAL	70
 #define CGM_MAX_VAL	220
+
+// トレンドの判断マージン
+#define D_TREND_CHECK_MARGIN	5
+

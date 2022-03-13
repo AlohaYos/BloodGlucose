@@ -190,20 +190,7 @@ int complicationUpdateCount = 0;
 			if(cgmCurrentVal>0){
 				gaugeProvider = [CLKSimpleGaugeProvider gaugeProviderWithStyle:CLKGaugeProviderStyleFill gaugeColors:colorArray gaugeColorLocations:colorLocationArray fillFraction:cv];
 #if 1
-			   NSNumber *cgmTrendNumber = [ShareData objectForKey:@"cgmTrend"];
-			   NSString *trendStr;
-			   if([cgmTrendNumber intValue]==0){
-				  trendStr = @"→";
-			   }
-			   if([cgmTrendNumber intValue]>0){
-				  trendStr = @"↑";
-			   }
-			   if([cgmTrendNumber intValue]<0){
-				  trendStr = @"↓";
-			   }
-			   if([cgmTrendNumber intValue]<-10){
-				  trendStr = @"？";
-			   }
+			   NSString *trendStr = [ShareData objectForKey:@"cgmTrendString"];
 
 				[leadingText initWithText:[self currentDateString]];
 				[tailingText initWithText:[self currentTimeString]];

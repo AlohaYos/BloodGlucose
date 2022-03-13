@@ -666,6 +666,8 @@ int healthkitNofityCount = 0;
 	[self getBloodGlucose];
 	[self updateChartData];
 	[self displayDataValues];
+	[self checkGlucoseValueRange];
+	[self sendCGMtoWatch:currentCGM datetime:currentDate];
 }
 
 - (void)healthKitNotifyJob
@@ -673,14 +675,12 @@ int healthkitNofityCount = 0;
 	healthkitNofityCount++;
 	[ShareData setObject:[NSNumber numberWithInt:healthkitNofityCount] forKey:@"healthkitNofityCount"];
 	[self getGlucoseDataAndDraw];
-	[self checkGlucoseValueRange];
 }
 
 int getBloodGlucoseCount = 0;
 double latestCGMValue = 0;
 double latestCGMValue1 = 0;
 double latestCGMValue2 = 0;
-#define D_TREND_CHECK_MARGIN	5
 
 - (void)checkGlucoseValueRange
 {
@@ -704,10 +704,12 @@ double latestCGMValue2 = 0;
 			if(latestCGMValue1+D_TREND_CHECK_MARGIN<=latestCGMValue) {
 				// 上昇
 				trend = +1;
+				[self logging:@"トレンド　↑"];
 			}
 			if(latestCGMValue<=latestCGMValue1-D_TREND_CHECK_MARGIN) {
 				// 下降
 				trend = -1;
+				[self logging:@"トレンド　↓"];
 			}
 		}
 #else
@@ -725,6 +727,7 @@ double latestCGMValue2 = 0;
 #endif
 		else {
 			trend = -100;	// トレンド未決定
+			[self logging:@"トレンド　？"];
 		}
 		[ShareData setObject:[NSNumber numberWithInt:trend] forKey:@"cgmTrend"];
    });
@@ -785,7 +788,6 @@ double latestCGMValue2 = 0;
 											currentCGM = bloodGlucose_mg_per_dL;	// 最新値
 											currentDate = endDate;
 										}
-										[self sendCGMtoWatch:currentCGM datetime:currentDate];
 									// シミュレータ用のサンプルデータ書き出し用　→　SampleData.hへコピー＆ペーストして使用する
 									//	NSLog(@"%@",tStr);
 									//	NSLog(@"%@",gStr);
@@ -816,7 +818,6 @@ double latestCGMValue2 = 0;
 		currentCGM = [gluValue doubleValue];
 		currentTime = endDate;
 	}
-	[self sendCGMtoWatch:currentCGM datetime:currentTime];
 #endif
 
 	getBloodGlucoseCount++;

@@ -153,6 +153,7 @@ static void MyCallBack(CFNotificationCenterRef center, void *observer, CFStringR
 	}
 }
 
+NSMutableArray* cgmValueArray = nil;
 NSMutableArray* datetimeArray = nil;
 NSMutableArray* datetimeLabelArray = nil;
 int receiveCount = 0;
@@ -161,6 +162,7 @@ int receiveCount = 0;
 - (void)setCurrentData:(NSNumber*)cgmValue datetime:(NSDate*)datetime
 {
 	if(!datetimeArray){
+		cgmValueArray = [NSMutableArray new];
 		datetimeArray = [NSMutableArray new];
 		datetimeLabelArray = [NSMutableArray new];
 		[datetimeLabelArray insertObject:_labelDate1 atIndex:0];
@@ -173,9 +175,34 @@ int receiveCount = 0;
 	[ShareData setObject:cgmValue forKey:@"currentCGM"];
 	[ShareData setObject:datetime forKey:@"currentDate"];
 	[_labelCGMValue setText:[NSString stringWithFormat:@"%.0fmd/dL", [cgmValue doubleValue]]];
+	[cgmValueArray insertObject:cgmValue atIndex:0];
 	[datetimeArray insertObject:datetime atIndex:0];
 
-	[_labelBigCGMValue setText:[NSString stringWithFormat:@"%.0f", [cgmValue doubleValue]]];
+	NSString* trendStr;
+	if(cgmValueArray.count>=2){
+		double val1, val0, diff;
+		val0 = [cgmValueArray[0] doubleValue];
+		val1 = [cgmValueArray[1] doubleValue];
+		diff = val0-val1;
+
+		if(fabs(diff) < D_TREND_CHECK_MARGIN) {
+			trendStr = @"→";
+		}
+		else {
+			if(diff>0){
+			   trendStr = @"↑";
+			}
+			if(diff<0){
+			   trendStr = @"↓";
+			}
+		}
+	}
+	else {
+		trendStr = @"？";
+	}
+	[ShareData setObject:trendStr forKey:@"cgmTrendString"];
+
+	[_labelBigCGMValue setText:[NSString stringWithFormat:@"%.0f%@", [cgmValue doubleValue], trendStr]];
 	if(([cgmValue doubleValue]<=CGM_MIN_VAL)||([cgmValue doubleValue]>CGM_MAX_VAL)) {
 		[_labelBigCGMValue setTextColor:[UIColor redColor]];
 	}
@@ -184,6 +211,7 @@ int receiveCount = 0;
 	}
 
 	if(DATETIME_LABEL_ARRAY_COUNT<datetimeArray.count){
+		[cgmValueArray removeLastObject];
 		[datetimeArray removeLastObject];
 	}
 
@@ -191,12 +219,13 @@ int receiveCount = 0;
 		if(datetimeArray.count<=i){
 			break;
 		}
+		NSNumber* cgmNumber = [cgmValueArray objectAtIndex:i];
 		NSDate* dt = (NSDate*)[datetimeArray objectAtIndex:i];
 		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 		dateFormatter.dateFormat = @"MM/dd HH:mm";
 		NSString* dateString = [dateFormatter stringFromDate:dt];
 		WKInterfaceLabel *lblDt = (WKInterfaceLabel*)[datetimeLabelArray objectAtIndex:i];
-		[lblDt setText:[NSString stringWithFormat:@"%@ %.0f", dateString, [cgmValue doubleValue]]];
+		[lblDt setText:[NSString stringWithFormat:@"%@ %.0f", dateString, [cgmNumber doubleValue]]];
 	}
 
 	receiveCount++;
