@@ -1054,13 +1054,24 @@ double lastSendValueCGM;
 
 - (void)logging:(NSString*)logmessage
 {
+	NSDate* logDate = [NSDate now];
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	dateFormatter.dateFormat = @"HH:mm:ss";
+	NSString* dateString = [dateFormatter stringFromDate:logDate];
+
 	NSString* msg = self.textviewLog.text;
-	msg = [NSString stringWithFormat:@"%@\n%@", logmessage,msg];
+	msg = [NSString stringWithFormat:@"%@ %@\n%@", dateString, logmessage, msg];
 	[self.textviewLog setText:msg];
 }
 
 - (void)loggingWithClear:(NSString*)logmessage
 {
+	NSDate* logDate = [NSDate now];
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	dateFormatter.dateFormat = @"HH:mm:ss";
+	NSString* dateString = [dateFormatter stringFromDate:logDate];
+
+	NSString* msg = [NSString stringWithFormat:@"%@ %@", dateString, logmessage];
 	[self.textviewLog setText:logmessage];
 }
 

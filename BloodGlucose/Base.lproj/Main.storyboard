@@ -110,7 +110,7 @@
                                 </connections>
                             </button>
                             <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.5" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="--LOG--" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y7u-mF-BRo">
-                                <rect key="frame" x="13" y="112" width="250" height="600"/>
+                                <rect key="frame" x="13" y="112" width="350" height="600"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

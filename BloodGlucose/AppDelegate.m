@@ -197,7 +197,12 @@ e -l objc -- (void)[[BGTaskScheduler sharedScheduler] _simulateLaunchForTaskWith
 
 - (void)logging:(NSString*)logmessage
 {
-	logText = [NSString stringWithFormat:@"%@\n%@", logmessage,logText];
+	NSDate* logDate = [NSDate now];
+	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+	dateFormatter.dateFormat = @"HH:mm:ss";
+	NSString* dateString = [dateFormatter stringFromDate:logDate];
+
+	logText = [NSString stringWithFormat:@"%@ %@\n%@", dateString, logmessage,logText];
 	NSLog(logmessage);
 }
 
