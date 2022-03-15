@@ -317,17 +317,19 @@ int timerJobCount = 0;
 {
 	dispatch_async(dispatch_get_main_queue(), ^{
 		NSNumber* timerJobNumber = [ShareData objectForKey:@"timerJobCount"];
+		NSNumber* locationUpdateNumber = [ShareData objectForKey:@"locationUpdateCount"];
 		NSNumber* healthkitNofityNumber = [ShareData objectForKey:@"healthkitNofityCount"];
 		NSNumber* getBloodGlucoseNumber = [ShareData objectForKey:@"getBloodGlucoseCount"];
 		NSNumber* notifyToWatchNumber = [ShareData objectForKey:@"notifyToWatchCount"];
 		NSNumber* backgroundNumber = [ShareData objectForKey:@"backgroundCount"];
 		
-		NSString* infoStr = [NSString stringWithFormat:@"timer%d getCGM%d toWatch%d bg%d HKNotify%d",
+		NSString* infoStr = [NSString stringWithFormat:@"tm%d get%d watch%d HK%d CL%d bg%d",
 							 [timerJobNumber intValue],
 							 [getBloodGlucoseNumber intValue],
 							 [notifyToWatchNumber intValue],
-							 [backgroundNumber intValue],
-							 [healthkitNofityNumber intValue]
+							 [healthkitNofityNumber intValue],
+							 [locationUpdateNumber intValue],
+							 [backgroundNumber intValue]
 		];
 		[_labelInfomation setText:infoStr];
 
@@ -336,9 +338,9 @@ int timerJobCount = 0;
 		dateFormatter.dateFormat = @"MM/dd HH:mm";
 		NSString* dateString = [dateFormatter stringFromDate:cgmDate];
 
-		NSNumber* cgmNumber = [ShareData objectForKey:@"currentCGM"];
-		if([cgmNumber intValue]>0){
-			infoStr = [NSString stringWithFormat:@"%d",[cgmNumber intValue]];
+	//	NSNumber* cgmNumber = [ShareData objectForKey:@"currentCGM"];
+		if(currentCGM>0){
+			infoStr = [NSString stringWithFormat:@"%d",currentCGM];
 			_labelBigDate.hidden=NO;
 			_labelBigValue.hidden=NO;
 			_labelBigUnit.hidden=NO;
@@ -626,7 +628,6 @@ NSDate* currentSelectedDate = nil;
 
 
 // MARK: - Blood Glucose
-int healthkitNofityCount = 0;
 /*
 - (void)registerBloodGlucoseObserver
 {
@@ -684,6 +685,16 @@ int healthkitNofityCount = 0;
 	[self sendCGMtoWatch:currentCGM datetime:currentDate];
 }
 
+int locationUpdateCount = 0;
+
+- (void)locationUpdateJob
+{
+	locationUpdateCount++;
+	[ShareData setObject:[NSNumber numberWithInt:locationUpdateCount] forKey:@"locationUpdateCount"];
+	[self getGlucoseDataAndDraw];
+}
+
+int healthkitNofityCount = 0;
 
 - (void)healthKitNotifyJob
 {

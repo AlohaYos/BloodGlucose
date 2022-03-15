@@ -56,8 +56,10 @@
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "8"
       notificationPayloadFile = "WatchCGM WatchKit Extension/PushNotificationPayload.apns">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/WatchCGM">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FF378BEE27D3480100A1C3F8"
@@ -65,7 +67,7 @@
             BlueprintName = "WatchCGM"
             ReferencedContainer = "container:BloodGlucose.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -75,8 +77,10 @@
       debugDocumentVersioning = "YES"
       launchAutomaticallySubstyle = "8"
       notificationPayloadFile = "WatchCGM WatchKit Extension/PushNotificationPayload.apns">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/WatchCGM">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FF378BEE27D3480100A1C3F8"
@@ -84,7 +88,16 @@
             BlueprintName = "WatchCGM"
             ReferencedContainer = "container:BloodGlucose.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "FF378BEE27D3480100A1C3F8"
+            BuildableName = "WatchCGM.app"
+            BlueprintName = "WatchCGM"
+            ReferencedContainer = "container:BloodGlucose.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

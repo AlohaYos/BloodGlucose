@@ -11,7 +11,7 @@
 
 NSString* logText = @"";
 
-@interface AppDelegate ()
+@interface AppDelegate () <CLLocationManagerDelegate>
 	
 @end
 
@@ -28,6 +28,8 @@ NSString* logText = @"";
 		[_session activateSession];
 	}
 
+	[self startUsingCoreLocation];
+	
 	// ヘルスキットのオブザーバー設置
 	[self setupHealthKitObserve];
 
@@ -350,6 +352,90 @@ int healthKitNotifyInProgress = NO;
 	UNTimeIntervalNotificationTrigger *triger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:1 repeats:NO];
 	UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"bloodGlucoseNotifyID" content:unMutableNotice trigger:triger];
 	[UNUserNotificationCenter.currentNotificationCenter addNotificationRequest:request withCompletionHandler:nil];
+}
+
+#pragma mark - Location update
+
+CLLocationManager* locationManager;
+BOOL deferringUpdates = NO;
+
+- (void)startUsingCoreLocation
+{
+	CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
+	if(status == kCLAuthorizationStatusRestricted || status == kCLAuthorizationStatusDenied){
+		return;
+	}
+	
+	locationManager = [[CLLocationManager alloc] init];
+	locationManager.delegate = self;
+	
+	if(status == kCLAuthorizationStatusNotDetermined){
+		if ([locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]) {
+		//	[locationManager requestWhenInUseAuthorization];
+		}
+
+		if ([locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+			[locationManager requestAlwaysAuthorization];
+		}
+	}
+	
+	if(locationManager.locationServicesEnabled==NO){
+		return;
+	}
+	
+	locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
+	locationManager.distanceFilter = 100;
+	
+	[locationManager startUpdatingLocation];
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation
+  {
+	  [self logging:@"didUpdateToLocation"];
+
+	  if(deferringUpdates==NO && [CLLocationManager deferredLocationUpdatesAvailable]){
+		  [locationManager allowDeferredLocationUpdatesUntilTraveled:CLLocationDistanceMax timeout:(NSTimeInterval)1*60];
+		  deferringUpdates = YES;
+		  return;
+	  }
+	  
+	  //This method will show us that we recieved the new location
+	  NSLog(@"Latitude = %f",newLocation.coordinate.latitude );
+	  NSLog(@"Longitude =%f",newLocation.coordinate.longitude);
+
+	  
+	  if(_mainVC){
+		  [_mainVC performSelector:@selector(locationUpdateJob)];
+		  [self logging:@"Did location job"];
+	  }
+  }
+
+- (void)locationManager:(CLLocationManager *)manager didFinishDeferredUpdatesWithError:(NSError *)error{
+	[self logging:@"didFinishDeferredUpdatesWithError"];
+
+	if(_mainVC){
+		[_mainVC performSelector:@selector(locationUpdateJob)];
+		[self logging:@"Did location job"];
+	}
+
+	deferringUpdates = NO;
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+  {
+	//Failed to recieve user's location
+	[self logging:@"failed to receive location"];
+  }
+
+- (void)locationManagerDidPauseLocationUpdates:(CLLocationManager *)manager
+{
+	[self logging:@"locationManagerDidPauseLocationUpdates"];
+}
+
+- (void)locationManagerDidResumeLocationUpdates:(CLLocationManager *)manager
+{
+	[self logging:@"locationManagerDidResumeLocationUpdates"];
+//	deferringUpdates = YES;
 }
 
 @end

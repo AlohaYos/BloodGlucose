@@ -54,8 +54,10 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/WatchCGM">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FF378BEE27D3480100A1C3F8"
@@ -63,7 +65,7 @@
             BlueprintName = "WatchCGM"
             ReferencedContainer = "container:BloodGlucose.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -71,8 +73,10 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <BuildableProductRunnable
-         runnableDebuggingMode = "0">
+      <RemoteRunnable
+         runnableDebuggingMode = "2"
+         BundleIdentifier = "com.apple.Carousel"
+         RemotePath = "/WatchCGM">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FF378BEE27D3480100A1C3F8"
@@ -80,7 +84,16 @@
             BlueprintName = "WatchCGM"
             ReferencedContainer = "container:BloodGlucose.xcodeproj">
          </BuildableReference>
-      </BuildableProductRunnable>
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "FF378BEE27D3480100A1C3F8"
+            BuildableName = "WatchCGM.app"
+            BlueprintName = "WatchCGM"
+            ReferencedContainer = "container:BloodGlucose.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

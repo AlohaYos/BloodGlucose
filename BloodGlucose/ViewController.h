@@ -53,7 +53,7 @@
 - (void)loggingWithClear:(NSString*)logmessage;
 
 - (void)healthKitNotifyJob;
-
+- (void)locationUpdateJob;
 
 @end
 

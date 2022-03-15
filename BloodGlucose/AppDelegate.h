@@ -9,6 +9,7 @@
 #import <WatchConnectivity/WatchConnectivity.h>
 #import <BackgroundTasks/BackgroundTasks.h>
 #import <HealthKit/HealthKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "Common.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
