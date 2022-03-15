@@ -31,6 +31,7 @@ NSDate* currentDate = nil;
 @property (nonatomic, strong) IBOutlet UILabel *labelBigValue;
 @property (nonatomic, strong) IBOutlet UILabel *labelBigDate;
 @property (nonatomic, strong) IBOutlet UILabel *labelBigUnit;
+@property (nonatomic, strong) IBOutlet UILabel *labelBigMinutes;
 @property (nonatomic, strong) IBOutlet UITextView *textviewLog;
 @property (nonatomic, strong) IBOutlet UIButton* logToggleButton;
 
@@ -337,23 +338,33 @@ int timerJobCount = 0;
 		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 		dateFormatter.dateFormat = @"MM/dd HH:mm";
 		NSString* dateString = [dateFormatter stringFromDate:cgmDate];
+		
+		float tmDiff = [[NSDate now] timeIntervalSinceDate:cgmDate];
+		tmDiff /= 60;	// 分
+		NSString *minuteString = [NSString stringWithFormat:@"%.0f分前", tmDiff];
+		if(tmDiff<1)
+			minuteString = @"now";
 
 	//	NSNumber* cgmNumber = [ShareData objectForKey:@"currentCGM"];
 		if(currentCGM>0){
-			infoStr = [NSString stringWithFormat:@"%d",currentCGM];
+			infoStr = [NSString stringWithFormat:@"%.0f",currentCGM];
 			_labelBigDate.hidden=NO;
 			_labelBigValue.hidden=NO;
 			_labelBigUnit.hidden=NO;
+			_labelBigMinutes.hidden=NO;
 		}
 		else {
 			infoStr = @"---";
+			minuteString = @"---";
 			dateString = @"--/-- --:--";
 			_labelBigDate.hidden=YES;
 			_labelBigValue.hidden=YES;
 			_labelBigUnit.hidden=YES;
+			_labelBigMinutes.hidden=YES;
 		}
 		[_labelBigValue setText:infoStr];
 		[_labelBigDate setText:dateString];
+		[_labelBigMinutes setText:minuteString];
 	});
 }
 
@@ -792,7 +803,7 @@ double latestCGMValue2 = 0;
 										NSString *tStr = @"";
 										NSString *gStr = @"";
 										
-										currentCGM = 0;
+									//	currentCGM = 0;
 										double bloodGlucose_mg_per_dL = 0.0;
 										NSDate *endDate = [NSDate now];
 										for (HKQuantitySample *quantitySample in results) {

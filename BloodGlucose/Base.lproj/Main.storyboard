@@ -84,8 +84,15 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="--" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bHE-YT-Vdt">
+                                <rect key="frame" x="243" y="757" width="70" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="mg/dL" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTF-10-Y7m">
-                                <rect key="frame" x="171" y="757" width="70" height="21"/>
+                                <rect key="frame" x="174" y="757" width="70" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -171,6 +178,7 @@
                     <connections>
                         <outlet property="chartView" destination="8bC-Xf-vdC" id="2oL-gD-UNc"/>
                         <outlet property="labelBigDate" destination="utn-K3-FoD" id="P3c-CJ-BF4"/>
+                        <outlet property="labelBigMinutes" destination="bHE-YT-Vdt" id="PE8-Ig-JY2"/>
                         <outlet property="labelBigUnit" destination="oTF-10-Y7m" id="urx-5t-pfK"/>
                         <outlet property="labelBigValue" destination="SFN-BJ-na0" id="Ley-sC-Un5"/>
                         <outlet property="labelEntryDate" destination="nQI-8Z-zpn" id="SbD-cp-tUq"/>
