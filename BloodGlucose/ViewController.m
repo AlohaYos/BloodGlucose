@@ -337,9 +337,9 @@ int timerJobCount = 0;
 		NSDate* cgmDate = [ShareData objectForKey:@"currentDate"];
 		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 		dateFormatter.dateFormat = @"MM/dd HH:mm";
-		NSString* dateString = [dateFormatter stringFromDate:cgmDate];
+		NSString* dateString = [dateFormatter stringFromDate:currentDate];
 		
-		float tmDiff = [[NSDate now] timeIntervalSinceDate:cgmDate];
+		float tmDiff = [[NSDate now] timeIntervalSinceDate:currentDate];
 		tmDiff /= 60;	// 分
 		NSString *minuteString = [NSString stringWithFormat:@"%.0f分前", tmDiff];
 		if(tmDiff<1)
